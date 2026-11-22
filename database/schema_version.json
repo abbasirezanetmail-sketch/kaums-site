@@ -1,0 +1,63 @@
+{
+  "database_name": "MedLibrary",
+  "schema_version": "2.0.0",
+  "description": "Medical educational resources database with multi-university and field support",
+  "created_from": "Google Drive",
+  "tables": {
+    "universities": [
+      "university_id",
+      "university_name",
+      "status"
+    ],
+    "fields": [
+      "field_id",
+      "field_name",
+      "university_id",
+      "status"
+    ],
+    "categories": [
+      "category_id",
+      "category_name",
+      "description",
+      "status"
+    ],
+    "terms": [
+      "term_id",
+      "term_name",
+      "university_id",
+      "field_id",
+      "status"
+    ],
+    "courses": [
+      "course_id",
+      "term_id",
+      "course_name",
+      "university_id",
+      "field_id",
+      "status"
+    ],
+    "resources": [
+      "resource_id",
+      "university_id",
+      "field_id",
+      "term_id",
+      "course_id",
+      "category_id",
+      "course",
+      "title",
+      "resource_type",
+      "professor",
+      "academic_year",
+      "file_name",
+      "file_path",
+      "description",
+      "tags",
+      "is_duplicate",
+      "status",
+      "download_url",
+      "source_url",
+      "file_format",
+      "access_type"
+    ]
+  }
+}

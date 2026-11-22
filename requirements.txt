@@ -1,0 +1,2 @@
+# MedLibrary Python Core Requirements
+gunicorn==21.2.0

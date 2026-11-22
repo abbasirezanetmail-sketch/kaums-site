@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedLibrary | کتابخانه دیجیتال علوم پزشکی</title>
+    <style>
+
+/* Local Vazirmatn Fonts */
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./assets/fonts/Vazirmatn-300.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./assets/fonts/Vazirmatn-400.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./assets/fonts/Vazirmatn-500.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./assets/fonts/Vazirmatn-600.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./assets/fonts/Vazirmatn-700.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./assets/fonts/Vazirmatn-800.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+        
+
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --primary-dark: #1d4ed8;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --green: #10b981;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Vazirmatn', Tahoma, sans-serif;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        /* Header & Hero */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom-right-radius: 40px;
+            border-bottom-left-radius: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Search & Filter Bar */
+        .filter-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+            align-items: end;
+        }
+
+        @media (max-width: 768px) {
+            .filter-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            transition: .2s;
+            background: #f8fafc;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px #2563eb12;
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        /* Resource Card */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08);
+        }
+
+        .card-header {
+            padding: 20px 20px 10px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-tag {
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .card-type-tag {
+            font-size: 11px;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .card-body {
+            padding: 15px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-label {
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .card-footer {
+            padding: 15px 20px 20px;
+            background: #fafafa;
+        }
+
+        .btn-download {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: background 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-download:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-download.disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: var(--radius);
+            border: 1px dashed var(--border);
+            color: var(--text-muted);
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        /* Footer Signature */
+        .creator-signature {
+            margin-top: 60px;
+            padding: 22px 10px 15px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .creator-signature .signature-name {
+            font-family: "Segoe Script", "Brush Script MT", cursive;
+            font-size: 25px;
+            font-weight: 600;
+            color: #334d78;
+            direction: ltr;
+            letter-spacing: .4px;
+            margin-bottom: 4px;
+        }
+
+        .creator-signature .signature-role {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: #8490a5;
+            direction: ltr;
+        }
+
+        .creator-signature .signature-brand {
+            font-size: 10px;
+            margin-top: 8px;
+            color: #a0a9b8;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <h1>کتابخانه علوم پزشکی کاشان</h1>
+        <p>آرشیو هوشمند و دسته‌بندی‌شده منابع آموزشی مصوب پزشکی</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- Filter Bar -->
+    <div class="filter-panel">
+        <div class="filter-group">
+            <label for="search-box">جستجو در منابع</label>
+            <input type="text" id="search-box" class="search-input" placeholder="جستجو بر اساس عنوان، درس، نام استاد یا برچسب...">
+        </div>
+
+        <div class="filter-group">
+            <label for="course-filter">فیلتر بر اساس درس</label>
+            <select id="course-filter" class="select-input">
+                <option value="">همه درس‌ها</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="type-filter">نوع فایل منبع</label>
+            <select id="type-filter" class="select-input">
+                <option value="">همه انواع</option>
+                <option value="Lecture Notes">جزوه آموزشی</option>
+                <option value="Slides">اسلاید / فایل ارائه</option>
+                <option value="Book">کتاب مرجع</option>
+                <option value="Summary">خلاصه نویسی</option>
+                <option value="Question Bank">نمونه سوالات</option>
+                <option value="Video">ویدیو کلاسی</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Resources Grid -->
+    <div class="resources-grid" id="resources-container">
+        <!-- Cards will dynamically render here -->
+    </div>
+
+    <footer class="creator-signature">
+        <div class="signature-name">Dr. Reza Abbasi</div>
+        <div class="signature-role">FOUNDER &amp; DEVELOPER</div>
+        <div class="signature-brand">Designed &amp; Developed for MedLibrary</div>
+    </footer>
+
+</main>
+
+<script>
+
+const API = "/api";
+const REFRESH_INTERVAL = 15000;
+
+let db = {
+    universities: [],
+    fields: [],
+    terms: [],
+    courses: [],
+    categories: [],
+    resources: []
+};
+
+let lastSnapshot = "";
+let isLoading = false;
+
+const $ = id => document.getElementById(id);
+
+const typeTranslations = {
+    "Lecture Notes": "جزوه آموزشی",
+    "Practical Notes": "جزوه عملی",
+    "Slides": "اسلاید ارائه",
+    "Book": "کتاب مرجع",
+    "Summary": "خلاصه‌نویسی",
+    "Question Bank": "نمونه سؤالات",
+    "Video": "ویدئوی کلاسی",
+    "Supplement": "منبع تکمیلی",
+    "Other": "سایر منابع"
+};
+
+function active(records) {
+    return (records || []).filter(
+        item => String(item.status || "Active").toLowerCase() === "active"
+    );
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[char]);
+}
+
+async function fetchCollection(name) {
+    const response = await fetch(`${API}/${name}`, {
+        cache: "no-store"
+    });
+
+    if (!response.ok) {
+        throw new Error(`API ${name}: HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+        throw new Error(`Invalid response for ${name}`);
+    }
+
+    return data;
+}
+
+async function fetchDatabase() {
+    const names = [
+        "universities",
+        "fields",
+        "terms",
+        "courses",
+        "categories",
+        "resources"
+    ];
+
+    const values = await Promise.all(names.map(fetchCollection));
+
+    return Object.fromEntries(
+        names.map((name, index) => [name, active(values[index])])
+    );
+}
+
+function getSnapshot(data) {
+    return JSON.stringify(data);
+}
+
+function fillSelect(id, records, valueKey, labelKey, placeholder) {
+    const select = $(id);
+    if (!select) return;
+
+    const previous = select.value;
+
+    select.innerHTML =
+        `<option value="">${escapeHTML(placeholder)}</option>` +
+        records.map(item =>
+            `<option value="${escapeHTML(item[valueKey])}">
+                ${escapeHTML(item[labelKey])}
+            </option>`
+        ).join("");
+
+    if (records.some(item => String(item[valueKey]) === previous)) {
+        select.value = previous;
+    }
+}
+
+function ensureFilter(id, label, placeholder) {
+    let select = $(id);
+    if (select) return select;
+
+    const group = document.createElement("div");
+    group.className = "filter-group";
+
+    const labelElement = document.createElement("label");
+    labelElement.htmlFor = id;
+    labelElement.textContent = label;
+
+    select = document.createElement("select");
+    select.id = id;
+    select.className = "select-input";
+    select.innerHTML = `<option value="">${placeholder}</option>`;
+
+    group.append(labelElement, select);
+
+    const panel = document.querySelector(".filter-panel");
+    panel.appendChild(group);
+
+    return select;
+}
+
+function setupFilters() {
+    ensureFilter("university-filter", "دانشگاه", "همه دانشگاه‌ها");
+    ensureFilter("field-filter", "رشته تحصیلی", "همه رشته‌ها");
+    ensureFilter("term-filter", "ترم تحصیلی", "همه ترم‌ها");
+
+    const typeFilter = $("type-filter");
+    if (typeFilter) {
+        typeFilter.innerHTML = '<option value="">همه انواع منابع</option>';
+    }
+
+    $("university-filter").addEventListener("change", () => {
+        updateDependentFilters("university");
+        filterResources();
+    });
+
+    $("field-filter").addEventListener("change", () => {
+        updateDependentFilters("field");
+        filterResources();
+    });
+
+    $("term-filter").addEventListener("change", () => {
+        updateDependentFilters("term");
+        filterResources();
+    });
+
+    $("course-filter").addEventListener("change", filterResources);
+    $("type-filter").addEventListener("change", filterResources);
+    $("search-box").addEventListener("input", filterResources);
+}
+
+function updateDependentFilters(changed) {
+    const universityId = $("university-filter").value;
+    const fieldId = $("field-filter").value;
+    const termId = $("term-filter").value;
+
+    if (changed === "university") {
+        const fields = db.fields.filter(
+            item => !universityId || item.university_id === universityId
+        );
+        fillSelect("field-filter", fields, "field_id", "field_name", "همه رشته‌ها");
+
+        const terms = db.terms.filter(item =>
+            (!universityId || item.university_id === universityId) &&
+            (! $("field-filter").value || item.field_id === $("field-filter").value)
+        );
+        fillSelect("term-filter", terms, "term_id", "term_name", "همه ترم‌ها");
+    }
+
+    if (changed === "field") {
+        const terms = db.terms.filter(item =>
+            (!universityId || item.university_id === universityId) &&
+            (!fieldId || item.field_id === fieldId)
+        );
+        fillSelect("term-filter", terms, "term_id", "term_name", "همه ترم‌ها");
+    }
+
+    const selectedTerm = $("term-filter").value;
+
+    const courses = db.courses.filter(item =>
+        (!universityId || item.university_id === universityId) &&
+        (!fieldId || item.field_id === fieldId) &&
+        (!selectedTerm || item.term_id === selectedTerm)
+    );
+
+    fillSelect("course-filter", courses, "course_id", "course_name", "همه درس‌ها");
+}
+
+function populateFilters() {
+    fillSelect(
+        "university-filter",
+        db.universities,
+        "university_id",
+        "university_name",
+        "همه دانشگاه‌ها"
+    );
+
+    updateDependentFilters("university");
+
+    const types = [...new Set(
+        db.resources.map(item => item.resource_type).filter(Boolean)
+    )].sort();
+
+    const typeFilter = $("type-filter");
+    const previousType = typeFilter.value;
+
+    typeFilter.innerHTML =
+        '<option value="">همه انواع منابع</option>' +
+        types.map(type =>
+            `<option value="${escapeHTML(type)}">${escapeHTML(typeTranslations[type] || type)}</option>`
+        ).join("");
+
+    if (types.includes(previousType)) {
+        typeFilter.value = previousType;
+    }
+}
+
+function getName(records, id, idKey, nameKey) {
+    return records.find(item => item[idKey] === id)?.[nameKey] || "—";
+}
+
+function renderResources(data) {
+    const container = $("resources-container");
+
+    if (!data.length) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <h3>منبعی یافت نشد</h3>
+                <p>هیچ منبع آموزشی متناسب با فیلتر انتخاب‌شده یافت نشد.</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = data.map(res => {
+        const downloadUrl = String(res.download_url || "").trim();
+        const termName = getName(db.terms, res.term_id, "term_id", "term_name");
+        const typeName = typeTranslations[res.resource_type] || res.resource_type || "سند";
+
+        const downloadButton = downloadUrl
+            ? `<a href="${escapeHTML(downloadUrl)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-download">
+                  <span>📥 دانلود مستقیم منبع</span>
+               </a>`
+            : `<span class="btn-download disabled">
+                  ⚠️ لینک دانلود ثبت نشده
+               </span>`;
+
+        return `
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-meta">
+                        <span class="card-tag">${escapeHTML(termName)}</span>
+                        <span class="card-type-tag">${escapeHTML(typeName)}</span>
+                    </div>
+                    <h2 class="card-title">${escapeHTML(res.title)}</h2>
+                </div>
+
+                <div class="card-body">
+                    <div class="info-row">
+                        <span class="info-label">درس مرتبط:</span>
+                        <span class="info-value">${escapeHTML(res.course || getName(db.courses, res.course_id, "course_id", "course_name"))}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">استاد مدرس:</span>
+                        <span class="info-value">${escapeHTML(res.professor || "نامشخص")}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">سال تحصیلی:</span>
+                        <span class="info-value">${escapeHTML(res.academic_year || "—")}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">فرمت فایل:</span>
+                        <span class="info-value">${escapeHTML(res.file_format || "—")}</span>
+                    </div>
+                    ${res.description ? `<div class="resource-description">${escapeHTML(res.description)}</div>` : ""}
+                </div>
+
+                <div class="card-footer">
+                    ${downloadButton}
+                </div>
+            </div>`;
+    }).join("");
+}
+
+function filterResources() {
+    const search = $("search-box").value.trim().toLowerCase();
+    const universityId = $("university-filter").value;
+    const fieldId = $("field-filter").value;
+    const termId = $("term-filter").value;
+    const courseId = $("course-filter").value;
+    const type = $("type-filter").value;
+
+    const filtered = db.resources.filter(res => {
+        const searchable = [
+            res.title,
+            res.course,
+            res.professor,
+            res.resource_id,
+            res.description,
+            res.tags,
+            res.file_name
+        ].join(" ").toLowerCase();
+
+        return (!search || searchable.includes(search)) &&
+            (!universityId || res.university_id === universityId) &&
+            (!fieldId || res.field_id === fieldId) &&
+            (!termId || res.term_id === termId) &&
+            (!courseId || res.course_id === courseId) &&
+            (!type || res.resource_type === type);
+    });
+
+    renderResources(filtered);
+}
+
+async function refreshDatabase() {
+    if (isLoading) return;
+    isLoading = true;
+
+    try {
+        const freshData = await fetchDatabase();
+        const snapshot = getSnapshot(freshData);
+
+        if (snapshot !== lastSnapshot) {
+            const previous = {
+                university: $("university-filter").value,
+                field: $("field-filter").value,
+                term: $("term-filter").value,
+                course: $("course-filter").value,
+                type: $("type-filter").value
+            };
+
+            db = freshData;
+            lastSnapshot = snapshot;
+
+            populateFilters();
+
+            $("university-filter").value = previous.university;
+            updateDependentFilters("university");
+
+            $("field-filter").value = previous.field;
+            updateDependentFilters("field");
+
+            $("term-filter").value = previous.term;
+            updateDependentFilters("term");
+
+            $("course-filter").value = previous.course;
+            $("type-filter").value = previous.type;
+
+            filterResources();
+
+            console.log("MedLibrary database updated:", new Date().toLocaleTimeString());
+        }
+    } catch (error) {
+        console.error("MedLibrary API refresh failed:", error);
+    } finally {
+        isLoading = false;
+    }
+}
+
+async function initializePortal() {
+    setupFilters();
+    await refreshDatabase();
+    setInterval(refreshDatabase, REFRESH_INTERVAL);
+}
+
+initializePortal();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "medical-notes",
+    "title": "جزوات دانشگاهی علوم پزشکی",
+    "description": "دسترسی به جزوات و منابع آموزشی دانشگاهی علوم پزشکی",
+    "icon": "book-open",
+    "url": "/index.html",
+    "status": "active",
+    "category": "education",
+    "order": 1
+  }
+]

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedLibrary | پنل مدیریت</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #2563eb;
+    --primary-light: #eff6ff;
+    --bg: #f5f7fb;
+    --surface: #ffffff;
+    --border: #e8edf4;
+    --text: #172033;
+    --muted: #8490a5;
+    --green: #16a36a;
+    --shadow: 0 4px 20px rgba(20,40,80,.045);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+
+.sidebar {
+    width: 250px;
+    background: white;
+    border-left: 1px solid var(--border);
+    padding: 25px 17px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 8px 30px;
+}
+
+.brand-icon {
+    width: 43px;
+    height: 43px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+}
+
+.brand h2 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 800;
+}
+
+.brand small {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.menu-label {
+    color: #a0a9b8;
+    font-size: 11px;
+    padding: 10px 12px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin: 4px 0;
+    color: #68758b;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.nav-item span:first-child {
+    font-size: 18px;
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 22px;
+    right: 20px;
+    left: 20px;
+    border-top: 1px solid var(--border);
+    padding-top: 17px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* Main */
+
+.main {
+    width: calc(100% - 250px);
+    margin-right: 250px;
+    padding: 30px 36px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.topbar h1 {
+    font-size: 22px;
+    margin: 0 0 5px;
+}
+
+.topbar p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 8px 13px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    background: #e8efff;
+    color: var(--primary);
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/* Stats */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.stat-icon {
+    width: 39px;
+    height: 39px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 19px;
+}
+
+.blue { background: #eff6ff; color: #2563eb; }
+.green { background: #eafaf2; color: #16a36a; }
+.orange { background: #fff5e9; color: #e58b24; }
+
+.stat-number {
+    font-size: 29px;
+    font-weight: 800;
+    margin-top: 13px;
+    direction: ltr;
+    text-align: right;
+}
+
+/* Sections */
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 23px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow);
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.section-heading h2 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.section-heading p {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 5px 0 0;
+}
+
+/* Form */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #536078;
+}
+
+.field input, .field select, .field textarea {
+    width: 100%;
+    border: 1px solid #e1e7f0;
+    background: #fbfcfe;
+    padding: 11px 13px;
+    border-radius: 9px;
+    outline: none;
+    color: var(--text);
+    font-size: 12px;
+    transition: .2s;
+}
+
+.field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px #2563eb12;
+}
+
+.field textarea {
+    resize: vertical;
+    min-height: 85px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    border: none;
+    padding: 11px 20px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-light {
+    background: #f1f4f9;
+    color: #59667c;
+}
+
+/* Resources table */
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 17px;
+}
+
+.search {
+    width: 320px;
+    max-width: 100%;
+    padding: 10px 13px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #fbfcfe;
+    outline: none;
+    font-size: 12px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+th {
+    background: #f8faff;
+    color: #78859a;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: right;
+    padding: 13px;
+}
+
+td {
+    border-bottom: 1px solid #f0f2f6;
+    padding: 14px 13px;
+    font-size: 11px;
+    color: #4c5970;
+}
+
+tbody tr:hover {
+    background: #fafcff;
+}
+
+.resource-title {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.tag {
+    display: inline-block;
+    background: #eff6ff;
+    color: #2563eb;
+    padding: 4px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+}
+
+/* Responsive */
+
+@media(max-width: 900px) {
+    .sidebar {
+        width: 75px;
+        padding: 20px 9px;
+    }
+    .brand { justify-content: center; padding: 5px 0 25px; }
+    .brand-text, .nav-text, .menu-label, .sidebar-footer { display: none; }
+    .nav-item { justify-content: center; padding: 13px 5px; }
+    .main { width: calc(100% - 75px); margin-right: 75px; padding: 22px; }
+}
+
+@media(max-width: 600px) {
+    .main { padding: 15px; }
+    .stats { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .field.full { grid-column: auto; }
+    .topbar { align-items: flex-start; gap: 10px; }
+    .admin-profile { display: none; }
+    .toolbar { flex-direction: column; }
+    .search { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+    <div class="brand">
+        <div class="brand-icon">✚</div>
+        <div class="brand-text">
+            <h2>MedLibrary</h2>
+            <small>Medical Knowledge Archive</small>
+        </div>
+    </div>
+
+    <div class="menu-label">مدیریت کتابخانه</div>
+
+    <div class="nav-item active" onclick="showSection('dashboard')">
+        <span>▦</span><span class="nav-text">داشبورد</span>
+    </div>
+
+    <div class="nav-item" onclick="showSection('add-resource')">
+        <span>＋</span><span class="nav-text">افزودن منبع</span>
+    </div>
+
+    <div class="nav-item" onclick="showSection('resources')">
+        <span>▤</span><span class="nav-text">مدیریت منابع</span>
+    </div>
+
+    <div class="menu-label">سیستم</div>
+
+    <div class="nav-item">
+        <span>⚙</span><span class="nav-text">تنظیمات</span>
+    </div>
+
+    <div class="sidebar-footer">
+        MedLibrary Admin Panel<br>
+        Version 1.0
+    </div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+    <div>
+        <h1 id="page-title">داشبورد مدیریت</h1>
+        <p>مدیریت متمرکز منابع آموزشی پزشکی</p>
+    </div>
+    <div class="admin-profile">
+        <div class="avatar">A</div>
+        <span>مدیر کتابخانه</span>
+    </div>
+</header>
+
+<section id="dashboard" class="page-section">
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>تعداد منابع</span>
+                <div class="stat-icon blue">▤</div>
+            </div>
+            <div class="stat-number" id="resource-count">15</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>تعداد دروس</span>
+                <div class="stat-icon green">▣</div>
+            </div>
+            <div class="stat-number" id="course-count">10</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>تعداد ترم‌ها</span>
+                <div class="stat-icon orange">▦</div>
+            </div>
+            <div class="stat-number" id="term-count">1</div>
+        </div>
+
+    </div>
+
+    <div class="panel">
+        <div class="section-heading">
+            <div>
+                <h2>به MedLibrary خوش آمدید</h2>
+                <p>پنل مدیریت آرشیو منابع آموزشی پزشکی</p>
+            </div>
+        </div>
+
+        <p style="font-size:13px;line-height:2.2;color:#68758b">
+            از این پنل می‌توانی منابع آموزشی را ثبت و مدیریت کنی.
+            اطلاعات هر منبع شامل ترم، درس، عنوان، استاد، سال تحصیلی،
+            نوع فایل و لینک دانلود خواهد بود.
+        </p>
+
+        <button class="btn btn-primary" onclick="showSection('add-resource')">
+            ＋ ثبت منبع جدید
+        </button>
+    </div>
+
+</section>
+
+<section id="add-resource" class="page-section" hidden>
+
+    <div class="panel">
+        <div class="section-heading">
+            <div>
+                <h2>افزودن منبع جدید</h2>
+                <p>اطلاعات منبع آموزشی را وارد کن</p>
+            </div>
+            <span class="tag">New Resource</span>
+        </div>
+
+        <form id="resource-form">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>ترم تحصیلی *</label>
+                    <select name="term_id" id="term-select" required>
+                        <option value="">انتخاب ترم</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>درس *</label>
+                    <select name="course_id" id="course-select" required>
+                        <option value="">انتخاب درس</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>عنوان منبع *</label>
+                    <input name="title" required placeholder="مثلاً Neuroanatomy - Lecture 01">
+                </div>
+
+                <div class="field">
+                    <label>نام استاد</label>
+                    <input name="professor" placeholder="نام استاد">
+                </div>
+
+                <div class="field">
+                    <label>نوع منبع *</label>
+                    <select name="resource_type" required>
+                        <option value="">انتخاب نوع</option>
+                        <option value="Lecture Notes">جزوه</option>
+                        <option value="Slides">اسلاید</option>
+                        <option value="Book">کتاب</option>
+                        <option value="Summary">خلاصه</option>
+                        <option value="Question Bank">بانک سؤال</option>
+                        <option value="Video">ویدئو</option>
+                        <option value="Other">سایر</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>سال تحصیلی</label>
+                    <input name="academic_year" placeholder="مثلاً 1405">
+                </div>
+
+                <div class="field">
+                    <label>فرمت فایل</label>
+                    <select name="file_format">
+                        <option value="PDF">PDF</option>
+                        <option value="PPTX">PPTX</option>
+                        <option value="DOCX">DOCX</option>
+                        <option value="ZIP">ZIP</option>
+                        <option value="MP4">MP4</option>
+                        <option value="Other">سایر</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>وضعیت منبع</label>
+                    <select name="status">
+                        <option value="active">فعال</option>
+                        <option value="inactive">غیرفعال</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label>لینک دانلود *</label>
+                    <input name="download_url" type="url" required
+                           placeholder="https://example.com/file.pdf">
+                </div>
+
+                <div class="field full">
+                    <label>لینک صفحه منبع</label>
+                    <input name="source_url" type="url"
+                           placeholder="https://example.com/resource">
+                </div>
+
+                <div class="field full">
+                    <label>توضیحات</label>
+                    <textarea name="description" placeholder="توضیحات تکمیلی درباره منبع..."></textarea>
+                </div>
+
+                <div class="field full">
+                    <label>برچسب‌ها</label>
+                    <input name="tags" placeholder="مثلاً Neuroanatomy, Exam, Lecture">
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">ثبت منبع</button>
+                <button type="reset" class="btn btn-light">پاک کردن فرم</button>
+            </div>
+
+        </form>
+    </div>
+
+</section>
+
+<section id="resources" class="page-section" hidden>
+
+    <div class="panel">
+        <div class="section-heading">
+            <div>
+                <h2>منابع ثبت‌شده</h2>
+                <p>مشاهده و جست‌وجو در آرشیو منابع</p>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <input id="resource-search" class="search"
+                   placeholder="جست‌وجو بر اساس عنوان، درس یا استاد...">
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>شناسه</th>
+                        <th>عنوان منبع</th>
+                        <th>درس</th>
+                        <th>استاد</th>
+                        <th>نوع</th>
+                        <th>وضعیت</th>
+                    </tr>
+                </thead>
+                <tbody id="resources-table">
+                    <tr><td colspan="6" class="empty">در انتظار اتصال به دیتابیس...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+</main>
+</div>
+
+<script>
+const API = "/api";
+
+function showSection(sectionId) {
+    document.querySelectorAll(".page-section").forEach(section => {
+        section.hidden = section.id !== sectionId;
+    });
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    const titles = {
+        dashboard: "داشبورد مدیریت",
+        "add-resource": "افزودن منبع جدید",
+        resources: "مدیریت منابع"
+    };
+
+    document.getElementById("page-title").textContent = titles[sectionId];
+
+    const clicked = [...document.querySelectorAll(".nav-item")]
+        .find(item => item.getAttribute("onclick")?.includes(sectionId));
+
+    if (clicked) clicked.classList.add("active");
+}
+
+async function loadDashboard() {
+    try {
+        const response = await fetch(`${API}/dashboard`);
+        if (!response.ok) throw new Error("API unavailable");
+
+        const data = await response.json();
+
+        document.getElementById("resource-count").textContent = data.resources;
+        document.getElementById("course-count").textContent = data.courses;
+        document.getElementById("term-count").textContent = data.terms;
+    } catch (error) {
+        console.log("Dashboard will connect after server setup.");
+    }
+}
+
+async function loadOptions() {
+    try {
+        const [termsResponse, coursesResponse] = await Promise.all([
+            fetch(`${API}/terms`),
+            fetch(`${API}/courses`)
+        ]);
+
+        if (!termsResponse.ok || !coursesResponse.ok) {
+            throw new Error("API unavailable");
+        }
+
+        const terms = await termsResponse.json();
+        const courses = await coursesResponse.json();
+
+        const termSelect = document.getElementById("term-select");
+        const courseSelect = document.getElementById("course-select");
+
+        terms.forEach(term => {
+            const option = document.createElement("option");
+            option.value = term.term_id;
+            option.textContent = term.term_name || term.term_id;
+            termSelect.appendChild(option);
+        });
+
+        courses.forEach(course => {
+            const option = document.createElement("option");
+            option.value = course.course_id;
+            option.textContent = course.course;
+            courseSelect.appendChild(option);
+        });
+
+    } catch (error) {
+        console.log("Options will load after server setup.");
+    }
+}
+
+async function loadResources() {
+    const table = document.getElementById("resources-table");
+
+    try {
+        const response = await fetch(`${API}/resources`);
+        if (!response.ok) throw new Error("API unavailable");
+
+        const resources = await response.json();
+        renderResources(resources);
+
+    } catch (error) {
+        table.innerHTML =
+            '<tr><td colspan="6" class="empty">اتصال به دیتابیس هنوز راه‌اندازی نشده است.</td></tr>';
+    }
+}
+
+function renderResources(resources) {
+    const table = document.getElementById("resources-table");
+
+    if (!resources.length) {
+        table.innerHTML =
+            '<tr><td colspan="6" class="empty">هنوز منبعی ثبت نشده است.</td></tr>';
+        return;
+    }
+
+    table.innerHTML = resources.map(resource => `
+        <tr>
+            <td>${escapeHTML(resource.resource_id || "")}</td>
+            <td class="resource-title">${escapeHTML(resource.title || "")}</td>
+            <td>${escapeHTML(resource.course || "")}</td>
+            <td>${escapeHTML(resource.professor || "—")}</td>
+            <td><span class="tag">${escapeHTML(resource.resource_type || "")}</span></td>
+            <td>${escapeHTML(resource.status || "")}</td>
+        </tr>
+    `).join("");
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[char]);
+}
+
+document.getElementById("resource-search").addEventListener("input", async event => {
+    const query = event.target.value.trim().toLowerCase();
+
+    try {
+        const response = await fetch(`${API}/resources`);
+        const resources = await response.json();
+
+        const filtered = resources.filter(resource =>
+            [
+                resource.title,
+                resource.course,
+                resource.professor,
+                resource.resource_id
+            ].some(value => String(value || "").toLowerCase().includes(query))
+        );
+
+        renderResources(filtered);
+    } catch (error) {
+        console.log("Search will work after server setup.");
+    }
+});
+
+document.getElementById("resource-form").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    data.tags = data.tags
+        .split(",")
+        .map(tag => tag.trim())
+        .filter(Boolean);
+
+    try {
+        const response = await fetch(`${API}/resources`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "ثبت اطلاعات ناموفق بود.");
+        }
+
+        alert("منبع با موفقیت ثبت شد.");
+        form.reset();
+        await loadDashboard();
+        await loadResources();
+
+    } catch (error) {
+        alert("هنوز اتصال Python به پنل راه‌اندازی نشده است.");
+    }
+});
+
+loadDashboard();
+loadOptions();
+loadResources();
+</script>
+
+</body>
+</html>

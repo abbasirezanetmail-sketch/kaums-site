@@ -1,0 +1,62 @@
+[
+  {
+    "course_id": "T05-BACTERIOLOGY-THEORY",
+    "term_id": "T05",
+    "course_name": "Bacteriology - Theory",
+    "status": "Active"
+  },
+  {
+    "course_id": "T05-GENERAL-PATHOLOGY",
+    "term_id": "T05",
+    "course_name": "General Pathology",
+    "status": "Active"
+  },
+  {
+    "course_id": "T05-IMMUNOPATHOLOGY",
+    "term_id": "T05",
+    "course_name": "Immunopathology",
+    "status": "Active"
+  },
+  {
+    "course_id": "T05-INFECTIOUS-PATHOLOGY",
+    "term_id": "T05",
+    "course_name": "Infectious Pathology",
+    "status": "Active"
+  },
+  {
+    "course_id": "T05-NEOPLASIA",
+    "term_id": "T05",
+    "course_name": "Neoplasia",
+    "status": "Active"
+  },
+  {
+    "course_id": "T05-NEUROANATOMY",
+    "term_id": "T05",
+    "course_name": "Neuroanatomy",
+    "status": "Active"
+  },
+  {
+    "course_id": "T05-NEUROPHYSIOLOGY",
+    "term_id": "T05",
+    "course_name": "Neurophysiology",
+    "status": "Active"
+  },
+  {
+    "course_id": "T05-PEDIATRIC-GENETIC-PATHOLOGY",
+    "term_id": "T05",
+    "course_name": "Pediatric & Genetic Pathology",
+    "status": "Active"
+  },
+  {
+    "course_id": "T05-PRACTICAL-PATHOLOGY",
+    "term_id": "T05",
+    "course_name": "Practical Pathology",
+    "status": "Active"
+  },
+  {
+    "course_id": "T05-SPECIAL-SENSES-ANATOMY",
+    "term_id": "T05",
+    "course_name": "Special Senses Anatomy",
+    "status": "Active"
+  }
+]

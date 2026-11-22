@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedLibrary | کتابخانه دیجیتال علوم پزشکی</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght=300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --primary-dark: #1d4ed8;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --green: #10b981;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Vazirmatn', Tahoma, sans-serif;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        /* Header & Hero */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom-right-radius: 40px;
+            border-bottom-left-radius: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Search & Filter Bar */
+        .filter-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+            align-items: end;
+        }
+
+        @media (max-width: 768px) {
+            .filter-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            transition: .2s;
+            background: #f8fafc;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px #2563eb12;
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        /* Resource Card */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08);
+        }
+
+        .card-header {
+            padding: 20px 20px 10px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-tag {
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .card-type-tag {
+            font-size: 11px;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .card-body {
+            padding: 15px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-label {
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .card-footer {
+            padding: 15px 20px 20px;
+            background: #fafafa;
+        }
+
+        .btn-download {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: background 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-download:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-download.disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: var(--radius);
+            border: 1px dashed var(--border);
+            color: var(--text-muted);
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        /* Footer Signature */
+        .creator-signature {
+            margin-top: 60px;
+            padding: 22px 10px 15px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .creator-signature .signature-name {
+            font-family: "Segoe Script", "Brush Script MT", cursive;
+            font-size: 25px;
+            font-weight: 600;
+            color: #334d78;
+            direction: ltr;
+            letter-spacing: .4px;
+            margin-bottom: 4px;
+        }
+
+        .creator-signature .signature-role {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: #8490a5;
+            direction: ltr;
+        }
+
+        .creator-signature .signature-brand {
+            font-size: 10px;
+            margin-top: 8px;
+            color: #a0a9b8;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <h1>کتابخانه علوم پزشکی کاشان</h1>
+        <p>آرشیو هوشمند و دسته‌بندی‌شده منابع آموزشی مصوب پزشکی</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- Filter Bar -->
+    <div class="filter-panel">
+        <div class="filter-group">
+            <label for="search-box">جستجو در منابع</label>
+            <input type="text" id="search-box" class="search-input" placeholder="جستجو بر اساس عنوان، درس، نام استاد یا برچسب...">
+        </div>
+
+        <div class="filter-group">
+            <label for="course-filter">فیلتر بر اساس درس</label>
+            <select id="course-filter" class="select-input">
+                <option value="">همه درس‌ها</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="type-filter">نوع فایل منبع</label>
+            <select id="type-filter" class="select-input">
+                <option value="">همه انواع</option>
+                <option value="Lecture Notes">جزوه آموزشی</option>
+                <option value="Slides">اسلاید / فایل ارائه</option>
+                <option value="Book">کتاب مرجع</option>
+                <option value="Summary">خلاصه نویسی</option>
+                <option value="Question Bank">نمونه سوالات</option>
+                <option value="Video">ویدیو کلاسی</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Resources Grid -->
+    <div class="resources-grid" id="resources-container">
+        <!-- Cards will dynamically render here -->
+    </div>
+
+    <footer class="creator-signature">
+        <div class="signature-name">Dr. Reza Abbasi</div>
+        <div class="signature-role">FOUNDER &amp; DEVELOPER</div>
+        <div class="signature-brand">Designed &amp; Developed for MedLibrary</div>
+    </footer>
+
+</main>
+
+<script>
+    const API = "/api";
+    let resources = [];
+    let courses = [];
+
+    // Translate Resource Type to Persian
+    const typeTranslations = {
+        "Lecture Notes": "جزوه آموزشی",
+        "Slides": "اسلاید ارائه",
+        "Book": "کتاب مرجع",
+        "Summary": "خلاصه نویسی",
+        "Question Bank": "نمونه سوالات",
+        "Video": "ویدیو کلاسی",
+        "Other": "سایر مستندات"
+    };
+
+    // Embedded Local Database Fallbacks
+    const EMBEDDED_RESOURCES = [
+    {
+        "resource_id": "MED-000001",
+        "term_id": "T05",
+        "course_id": "T05-BACTERIOLOGY-THEORY",
+        "course": "Bacteriology - Theory",
+        "title": "Bacteriology Mehr400-402",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_Bacteriology_Mehr400-402.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Bacteriology - Theory/01 - Main Lectures/T05_Bacteriology_Mehr400-402.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000002",
+        "term_id": "T05",
+        "course_id": "T05-GENERAL-PATHOLOGY",
+        "course": "General Pathology",
+        "title": "GeneralPathology Mehr99",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_GeneralPathology_Mehr99.pdf",
+        "file_path": "05 - Term 05/01 - Courses/General Pathology/01 - Main Lectures/T05_GeneralPathology_Mehr99.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000003",
+        "term_id": "T05",
+        "course_id": "T05-IMMUNOPATHOLOGY",
+        "course": "Immunopathology",
+        "title": "Immunopathology DrVakili Mehr1402",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_Immunopathology_DrVakili_Mehr1402.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Immunopathology/01 - Main Lectures/T05_Immunopathology_DrVakili_Mehr1402.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000004",
+        "term_id": "T05",
+        "course_id": "T05-INFECTIOUS-PATHOLOGY",
+        "course": "Infectious Pathology",
+        "title": "InfectiousPathology Amas Mehr400-402",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_InfectiousPathology_Amas_Mehr400-402.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Infectious Pathology/01 - Main Lectures/T05_InfectiousPathology_Amas_Mehr400-402.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000005",
+        "term_id": "T05",
+        "course_id": "T05-NEOPLASIA",
+        "course": "Neoplasia",
+        "title": "Neoplasia DrVakili Mehr1402",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_Neoplasia_DrVakili_Mehr1402.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Neoplasia/01 - Main Lectures/T05_Neoplasia_DrVakili_Mehr1402.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000006",
+        "term_id": "T05",
+        "course_id": "T05-NEUROANATOMY",
+        "course": "Neuroanatomy",
+        "title": "Neuroanatomy Mehr99",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_Neuroanatomy_Mehr99.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Neuroanatomy/01 - Main Lectures/T05_Neuroanatomy_Mehr99.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000007",
+        "term_id": "T05",
+        "course_id": "T05-NEUROANATOMY",
+        "course": "Neuroanatomy",
+        "title": "Neuroanatomy Mehr99 Duplicate",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_Neuroanatomy_Mehr99_Duplicate.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Neuroanatomy/01 - Main Lectures/T05_Neuroanatomy_Mehr99_Duplicate.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": true,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000008",
+        "term_id": "T05",
+        "course_id": "T05-NEUROANATOMY",
+        "course": "Neuroanatomy",
+        "title": "Neuroanatomy Practical Mehr402",
+        "resource_type": "Practical Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_Neuroanatomy_Practical_Mehr402.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Neuroanatomy/01 - Main Lectures/T05_Neuroanatomy_Practical_Mehr402.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000009",
+        "term_id": "T05",
+        "course_id": "T05-NEUROPHYSIOLOGY",
+        "course": "Neurophysiology",
+        "title": "Neurophysiology MBG Mehr400",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_Neurophysiology_MBG_Mehr400.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Neurophysiology/01 - Main Lectures/T05_Neurophysiology_MBG_Mehr400.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000010",
+        "term_id": "T05",
+        "course_id": "T05-NEUROPHYSIOLOGY",
+        "course": "Neurophysiology",
+        "title": "Neurophysiology Mehr400",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_Neurophysiology_Mehr400.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Neurophysiology/01 - Main Lectures/T05_Neurophysiology_Mehr400.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000011",
+        "term_id": "T05",
+        "course_id": "T05-PEDIATRIC-GENETIC-PATHOLOGY",
+        "course": "Pediatric & Genetic Pathology",
+        "title": "PediatricGeneticPathology Year98",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_PediatricGeneticPathology_Year98.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Pediatric & Genetic Pathology/01 - Main Lectures/T05_PediatricGeneticPathology_Year98.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000012",
+        "term_id": "T05",
+        "course_id": "T05-PRACTICAL-PATHOLOGY",
+        "course": "Practical Pathology",
+        "title": "PracticalPathology",
+        "resource_type": "Practical Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_PracticalPathology.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Practical Pathology/01 - Main Lectures/T05_PracticalPathology.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000013",
+        "term_id": "T05",
+        "course_id": "T05-SPECIAL-SENSES-ANATOMY",
+        "course": "Special Senses Anatomy",
+        "title": "SpecialSenses CompleteSupplement",
+        "resource_type": "Supplement",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_SpecialSenses_CompleteSupplement.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Special Senses Anatomy/01 - Main Lectures/T05_SpecialSenses_CompleteSupplement.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000014",
+        "term_id": "T05",
+        "course_id": "T05-SPECIAL-SENSES-ANATOMY",
+        "course": "Special Senses Anatomy",
+        "title": "SpecialSenses Mehr400",
+        "resource_type": "Lecture Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_SpecialSenses_Mehr400.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Special Senses Anatomy/01 - Main Lectures/T05_SpecialSenses_Mehr400.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    },
+    {
+        "resource_id": "MED-000015",
+        "term_id": "T05",
+        "course_id": "T05-SPECIAL-SENSES-ANATOMY",
+        "course": "Special Senses Anatomy",
+        "title": "SpecialSenses Practical Mehr402",
+        "resource_type": "Practical Notes",
+        "professor": null,
+        "academic_year": null,
+        "file_name": "T05_SpecialSenses_Practical_Mehr402.pdf",
+        "file_path": "05 - Term 05/01 - Courses/Special Senses Anatomy/01 - Main Lectures/T05_SpecialSenses_Practical_Mehr402.pdf",
+        "description": null,
+        "tags": null,
+        "is_duplicate": false,
+        "status": "Active",
+        "download_url": null,
+        "source_url": null,
+        "file_format": "PDF",
+        "access_type": "Direct",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001",
+        "category_id": null
+    }
+];
+    const EMBEDDED_COURSES = [
+    {
+        "course_id": "T05-BACTERIOLOGY-THEORY",
+        "term_id": "T05",
+        "course_name": "Bacteriology - Theory",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    },
+    {
+        "course_id": "T05-GENERAL-PATHOLOGY",
+        "term_id": "T05",
+        "course_name": "General Pathology",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    },
+    {
+        "course_id": "T05-IMMUNOPATHOLOGY",
+        "term_id": "T05",
+        "course_name": "Immunopathology",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    },
+    {
+        "course_id": "T05-INFECTIOUS-PATHOLOGY",
+        "term_id": "T05",
+        "course_name": "Infectious Pathology",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    },
+    {
+        "course_id": "T05-NEOPLASIA",
+        "term_id": "T05",
+        "course_name": "Neoplasia",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    },
+    {
+        "course_id": "T05-NEUROANATOMY",
+        "term_id": "T05",
+        "course_name": "Neuroanatomy",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    },
+    {
+        "course_id": "T05-NEUROPHYSIOLOGY",
+        "term_id": "T05",
+        "course_name": "Neurophysiology",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    },
+    {
+        "course_id": "T05-PEDIATRIC-GENETIC-PATHOLOGY",
+        "term_id": "T05",
+        "course_name": "Pediatric & Genetic Pathology",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    },
+    {
+        "course_id": "T05-PRACTICAL-PATHOLOGY",
+        "term_id": "T05",
+        "course_name": "Practical Pathology",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    },
+    {
+        "course_id": "T05-SPECIAL-SENSES-ANATOMY",
+        "term_id": "T05",
+        "course_name": "Special Senses Anatomy",
+        "status": "Active",
+        "university_id": "UNI-0001",
+        "field_id": "FLD-0001"
+    }
+];
+
+    async function loadData() {
+        try {
+            const [resResponse, coursesResponse] = await Promise.all([
+                fetch(`${API}/resources`),
+                fetch(`${API}/courses`)
+            ]);
+
+            resources = await resResponse.json();
+            courses = await coursesResponse.json();
+            console.log("Loaded live database records.");
+        } catch (error) {
+            console.warn("API is offline. Falling back to embedded local database records.");
+            resources = EMBEDDED_RESOURCES;
+            courses = EMBEDDED_COURSES;
+        }
+        populateFilters();
+        renderResources(resources);
+    }
+
+    function populateFilters() {
+        const courseFilter = document.getElementById("course-filter");
+        courses.forEach(course => {
+            const option = document.createElement("option");
+            option.value = course.course_id;
+            option.textContent = course.course_name;
+            courseFilter.appendChild(option);
+        });
+    }
+
+    function renderResources(data) {
+        const container = document.getElementById("resources-container");
+
+        // Active elements filter (Don't show Inactive on user portal)
+        const activeData = data.filter(res => String(res.status || "Active").toLowerCase() === "active");
+
+        if (activeData.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <h3>منبعی یافت نشد</h3>
+                    <p>هیچ منبع آموزشی متناسب با فیلتر انتخاب شده یافت نشد.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = activeData.map(res => {
+            const downloadUrl = res.download_url ? res.download_url.trim() : "";
+            const isDownloadable = downloadUrl.length > 0;
+
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-meta">
+                            <span class="card-tag">ترم ۵</span>
+                            <span class="card-type-tag">\${typeTranslations[res.resource_type] || res.resource_type || "سند"}</span>
+                        </div>
+                        <h2 class="card-title">\${escapeHTML(res.title)}</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-row">
+                            <span class="info-label">درس مرتبط:</span>
+                            <span class="info-value">\${escapeHTML(res.course || "—")}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">استاد مدرس:</span>
+                            <span class="info-value">\${escapeHTML(res.professor || "نامشخص")}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">سال تحصیلی:</span>
+                            <span class="info-value">\${escapeHTML(res.academic_year || "—")}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">فرمت فایل:</span>
+                            <span class="info-value">\${escapeHTML(res.file_format || "PDF")}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        \${isDownloadable ? `
+                            <a href="\${encodeURI(downloadUrl)}" target="_blank" class="btn-download">
+                                <span>📥 دانلود مستقیم منبع</span>
+                            </a>
+                        ` : `
+                            <a href="#" class="btn-download disabled">
+                                <span>⚠️ لینک دانلود ثبت نشده</span>
+                            </a>
+                        `}
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    function filterResources() {
+        const searchVal = document.getElementById("search-box").value.trim().toLowerCase();
+        const courseVal = document.getElementById("course-filter").value;
+        const typeVal = document.getElementById("type-filter").value;
+
+        const filtered = resources.filter(res => {
+            const matchesSearch = !searchVal ||
+                [res.title, res.course, res.professor, res.resource_id]
+                    .some(v => String(v || "").toLowerCase().includes(searchVal));
+
+            const matchesCourse = !courseVal || res.course_id === courseVal;
+            const matchesType = !typeVal || res.resource_type === typeVal;
+
+            return matchesSearch && matchesCourse && matchesType;
+        });
+
+        renderResources(filtered);
+    }
+
+    function escapeHTML(value) {
+        return String(value || "").replace(/[&<>/"']/g, char => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", "/": "&#x2F;", '"': "&quot;", "'": "&#039;"
+        })[char]);
+    }
+
+    document.getElementById("search-box").addEventListener("input", filterResources);
+    document.getElementById("course-filter").addEventListener("change", filterResources);
+    document.getElementById("type-filter").addEventListener("change", filterResources);
+
+    loadData();
+</script>
+
+</body>
+</html>

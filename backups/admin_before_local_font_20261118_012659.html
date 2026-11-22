@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedLibrary | پنل مدیریت پیشرفته</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #2563eb;
+    --primary-light: #eff6ff;
+    --bg: #f5f7fb;
+    --surface: #ffffff;
+    --border: #e8edf4;
+    --text: #172033;
+    --muted: #8490a5;
+    --green: #16a36a;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --orange: #e58b24;
+    --shadow: 0 4px 20px rgba(20,40,80,.045);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: white; 
+    border-left: 1px solid var(--border);
+    padding: 25px 17px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 8px 30px;
+}
+
+.brand-icon {
+    width: 43px;
+    height: 43px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+}
+
+.brand h2 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 800;
+}
+
+.brand small {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.menu-label {
+    color: #a0a9b8;
+    font-size: 11px;
+    padding: 10px 12px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin: 4px 0;
+    color: #68758b;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 22px;
+    right: 20px;
+    left: 20px;
+    border-top: 1px solid var(--border);
+    padding-top: 17px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* Main Content */
+.main {
+    width: calc(100% - 250px);
+    margin-right: 250px;
+    padding: 30px 36px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.topbar h1 {
+    font-size: 22px;
+    margin: 0 0 5px;
+}
+
+.topbar p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 8px 13px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    background: #e8efff;
+    color: var(--primary);
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/* Stats cards */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.stat-icon {
+    width: 39px; 
+    height: 39px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 19px;
+}
+
+.blue { background: #eff6ff; color: #2563eb; }
+.green { background: #eafaf2; color: #16a36a; }
+.orange { background: #fff5e9; color: #e58b24; }
+
+.stat-number {
+    font-size: 29px;
+    font-weight: 800;
+    margin-top: 13px;
+    direction: ltr;
+    text-align: right;
+}
+
+/* Panels */
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 23px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow);
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.section-heading h2 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.section-heading p {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 5px 0 0;
+}
+
+/* Form elements */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #536078;
+}
+
+.field select, .field input, .field textarea {
+    width: 100%;
+    border: 1px solid #e1e7f0;
+    background: #fbfcfe;
+    padding: 11px 13px;
+    border-radius: 9px;
+    outline: none;
+    color: var(--text);
+    font-size: 12px;
+    transition: .2s;
+}
+
+.field select:focus, .field input:focus, .field textarea:focus {
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px #2563eb12;
+}
+
+.field textarea {
+    resize: vertical;
+    min-height: 85px;
+}
+
+.field-inline-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn-inline {
+    padding: 10px 12px;
+    border: 1px solid #e1e7f0;
+    background: #f1f4f9;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    border: none;
+    padding: 11px 20px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-light {
+    background: #f1f4f9;
+    color: #59667c;
+}
+
+.btn-danger {
+    background: var(--red-light);
+    color: var(--red);
+    border: 1px solid #fee2e2;
+}
+
+.btn-danger:hover {
+    background: #fee2e2;
+}
+
+/* Table operations styling */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 17px;
+}
+
+.search {
+    width: 320px;
+    max-width: 100%;
+    padding: 10px 13px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #fbfcfe;
+    outline: none;
+    font-size: 12px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+th {
+    background: #f8faff;
+    color: #78859a;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: right;
+    padding: 13px;
+}
+
+td {
+    border-bottom: 1px solid #f0f2f6;
+    padding: 14px 13px;
+    font-size: 12px;
+    color: #4c5970;
+}
+
+tbody tr:hover {
+    background: #fafcff;
+}
+
+.resource-title {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.tag {
+    display: inline-block;
+    background: #eff6ff;
+    color: #2563eb;
+    padding: 4px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
+.tag-inactive {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.action-group {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.15s;
+}
+
+.btn-action-edit {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.btn-action-edit:hover {
+    background: #fef3c7;
+}
+
+.btn-action-del {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.btn-action-del:hover {
+    background: #fee2e2;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: white;
+    width: 600px;
+    max-width: 90%;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+}
+
+.modal.open .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--muted);
+}
+
+.modal-body {
+    padding: 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    background: #f8fafc;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Signature */
+.creator-signature {
+    margin-top: 45px;
+    padding: 22px 10px 15px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+}
+
+.creator-signature .signature-name {
+    font-family: "Segoe Script", "Brush Script MT", cursive;
+    font-size: 25px;
+    font-weight: 600;
+    color: #334d78;
+    direction: ltr;
+    letter-spacing: .4px;
+    margin-bottom: 4px;
+}
+
+.creator-signature .signature-role {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #8490a5;
+    direction: ltr;
+}
+
+.creator-signature .signature-brand {
+    font-size: 10px;
+    margin-top: 8px;
+    color: #a0a9b8;
+}
+
+@media(max-width: 900px) {
+    .sidebar {
+        width: 75px;
+        padding: 20px 9px;
+    }
+    .brand { justify-content: center; padding: 5px 0 25px; }
+    .brand-text, .nav-text, .menu-label, .sidebar-footer { display: none; }
+    .nav-item { justify-content: center; padding: 13px 5px; }
+    .main { width: calc(100% - 75px); margin-right: 75px; padding: 22px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+    <div class="brand">
+        <div class="brand-icon">✚</div>
+        <div class="brand-text">
+            <h2>MedLibrary</h2>
+            <small>Knowledge Center</small>
+        </div>
+    </div>
+
+    <div class="menu-label">مدیریت کتابخانه</div>
+
+    <div class="nav-item active" onclick="showSection('dashboard')">
+        <span>▦</span><span class="nav-text">داشبورد</span>
+    </div>
+
+    <div class="nav-item" onclick="showSection('add-resource')">
+        <span>＋</span><span class="nav-text">ثبت منبع جدید</span>
+    </div>
+
+    <div class="nav-item" onclick="showSection('resources')">
+        <span>▤</span><span class="nav-text">مدیریت منابع</span>
+    </div>
+
+    <div class="sidebar-footer">
+        MedLibrary Admin Panel<br>
+        Version 2.0 (CRUD Complete)
+    </div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+    <div>
+        <h1 id="page-title">داشبورد مدیریت</h1>
+        <p>سیستم یکپارچه ویرایش، حذف و طبقه‌بندی منابع پزشکی</p>
+    </div>
+    <div class="admin-profile">
+        <div class="avatar">A</div>
+        <span>مدیر کتابخانه</span>
+    </div>
+</header>
+
+<!-- 1. DASHBOARD -->
+<section id="dashboard" class="page-section">
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>کل منابع آرشیو</span>
+                <div class="stat-icon blue">▤</div>
+            </div>
+            <div class="stat-number" id="resource-count">—</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>دروس ثبت‌شده</span>
+                <div class="stat-icon green">▣</div>
+            </div>
+            <div class="stat-number" id="course-count">—</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>ترم‌های تحصیلی</span>
+                <div class="stat-icon orange">▦</div>
+            </div>
+            <div class="stat-number" id="term-count">—</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>مدیریت ساختار داده‌های کتابخانه</h2>
+        <p style="font-size:12px;color:var(--muted);">از ابزارهای زیر می‌توانید برای ویرایش، حذف یا فعال‌سازی نهادهای پایگاه داده استفاده نمایید.</p>
+        
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;">
+            <button class="btn btn-light" onclick="openDatabaseManager('universities')">🏛 مدیریت دانشگاه‌ها</button>
+            <button class="btn btn-light" onclick="openDatabaseManager('fields')">🧬 مدیریت رشته‌ها</button>
+            <button class="btn btn-light" onclick="openDatabaseManager('terms')">📅 مدیریت ترم‌ها</button>
+            <button class="btn btn-light" onclick="openDatabaseManager('courses')">📚 مدیریت درس‌ها</button>
+            <button class="btn btn-light" onclick="openDatabaseManager('categories')">🏷 مدیریت دسته‌بندی‌ها</button>
+        </div>
+    </div>
+</section>
+
+<!-- 2. ADD RESOURCE -->
+<section id="add-resource" class="page-section" hidden>
+    <div class="panel">
+        <div class="section-heading">
+            <div>
+                <h2>ثبت اطلاعات منبع تحصیلی</h2>
+                <p>تکمیل فیلدهای ستاره‌دار الزامی است</p>
+            </div>
+            <span class="tag">جدید</span>
+        </div>
+
+        <form id="resource-form">
+            <div class="form-grid">
+                <div class="field">
+                    <label>دانشگاه *</label>
+                    <div class="field-inline-actions">
+                        <select name="university_id" id="university-select" required>
+                            <option value="">انتخاب دانشگاه</option>
+                        </select>
+                        <button type="button" class="btn-inline" onclick="addEntityInline('universities')">＋ جدید</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>رشته تحصیلی *</label>
+                    <div class="field-inline-actions">
+                        <select name="field_id" id="field-select" required disabled>
+                            <option value="">ابتدا دانشگاه را انتخاب کنید</option>
+                        </select>
+                        <button type="button" class="btn-inline" onclick="addEntityInline('fields')">＋ جدید</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>ترم تحصیلی *</label>
+                    <div class="field-inline-actions">
+                        <select name="term_id" id="term-select" required disabled>
+                            <option value="">ابتدا رشته را انتخاب کنید</option>
+                        </select>
+                        <button type="button" class="btn-inline" onclick="addEntityInline('terms')">＋ جدید</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>درس مرتبط *</label>
+                    <div class="field-inline-actions">
+                        <select name="course_id" id="course-select" required disabled>
+                            <option value="">ابتدا ترم را انتخاب کنید</option>
+                        </select>
+                        <button type="button" class="btn-inline" onclick="addEntityInline('courses')">＋ جدید</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>دسته‌بندی موضوعی</label>
+                    <div class="field-inline-actions">
+                        <select name="category_id" id="category-select">
+                            <option value="">بدون دسته‌بندی</option>
+                        </select>
+                        <button type="button" class="btn-inline" onclick="addEntityInline('categories')">＋ جدید</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>عنوان دقیق منبع *</label>
+                    <input name="title" required placeholder="مثلاً جزوه آناتومی اندام فوقانی جلسه اول">
+                </div>
+
+                <div class="field">
+                    <label>نام استاد مدرس</label>
+                    <input name="professor" placeholder="دکتر ...">
+                </div>
+
+                <div class="field">
+                    <label>سال تحصیلی</label>
+                    <input name="academic_year" placeholder="مثلاً ۱۴۰۴-۱۴۰۵">
+                </div>
+
+                <div class="field">
+                    <label>نوع فایل منبع *</label>
+                    <select name="resource_type" required>
+                        <option value="">انتخاب کنید</option>
+                        <option value="Lecture Notes">جزوه آموزشی</option>
+                        <option value="Slides">اسلاید / فایل ارائه</option>
+                        <option value="Book">کتاب مرجع</option>
+                        <option value="Summary">خلاصه نویسی</option>
+                        <option value="Question Bank">نمونه سوالات</option>
+                        <option value="Video">ویدیو کلاسی</option>
+                        <option value="Other">سایر مستندات</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>فرمت سند</label>
+                    <select name="file_format">
+                        <option value="PDF">PDF</option>
+                        <option value="PPTX">PPTX</option>
+                        <option value="ZIP">ZIP Archive</option>
+                        <option value="DOCX">DOCX Word</option>
+                        <option value="MP4">MP4 Video</option>
+                        <option value="Other">دیگر فرمت‌ها</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label>آدرس دانلود فایل (URL مستقیم) *</label>
+                    <input name="download_url" type="url" required placeholder="https://dl.site.com/file.pdf">
+                </div>
+
+                <div class="field full">
+                    <label>آدرس صفحه مرجع اصلی (اختیاری)</label>
+                    <input name="source_url" type="url" placeholder="https://source.com/page">
+                </div>
+
+                <div class="field full">
+                    <label>یادداشت و توضیحات تکمیلی</label>
+                    <textarea name="description" placeholder="مباحث تدریس شده یا توضیحات مربوط به امتحان..."></textarea> status
+                </div>
+
+                <div class="field">
+                    <label>برچسب‌ها (با کاما جدا شوند)</label>
+                    <input name="tags" placeholder="آناتومی, اندام, استخوان">
+                </div>
+
+                <div class="field">
+                    <label>وضعیت دسترسی</label>
+                    <select name="status">
+                        <option value="Active">فعال و قابل دانلود</option>
+                        <option value="Inactive">غیرفعال / پنهان</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">ذخیره منبع تحصیلی</button>
+                <button type="reset" class="btn btn-light">خالی کردن فرم</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- 3. MANAGE RESOURCES -->
+<section id="resources" class="page-section" hidden>
+    <div class="panel">
+        <div class="section-heading">
+            <div>
+                <h2>آرشیو یکپارچه منابع</h2>
+                <p>عملیات‌های جستجو، ویرایش فیلدها و حذف فیزیکی یا منطقی اسناد ثبت‌شده</p>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <input id="resource-search" class="search" placeholder="جستجو بر اساس عنوان، نام استاد، درس و شناسه...">
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>شناسه منبع</th>
+                        <th>عنوان فایل</th>
+                        <th>نام درس</th>
+                        <th>استاد مدرس</th>
+                        <th>نوع سند</th>
+                        <th>وضعیت آرشیو</th>
+                        <th>اقدامات مدیریت</th>
+                    </tr>
+                </thead>
+                <tbody id="resources-table">
+                    <tr><td colspan="7" class="empty">در حال بارگذاری اطلاعات آرشیو...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<footer class="creator-signature">
+    <div class="signature-name">Dr. Reza Abbasi</div>
+    <div class="signature-role">FOUNDER &amp; DEVELOPER</div>
+    <div class="signature-brand">Designed &amp; Developed for MedLibrary</div>
+</footer>
+
+</main>
+</div>
+
+<!-- MODAL 1: EDIT RESOURCE -->
+<div class="modal" id="edit-resource-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>📝 ویرایش اطلاعات منبع</h3>
+            <button class="modal-close" onclick="closeModal('edit-resource-modal')">×</button>
+        </div>
+        <div class="modal-body">
+            <form id="edit-resource-form">
+                <input type="hidden" name="resource_id" id="edit-res-id">
+                <div class="form-grid">
+                    <div class="field full">
+                        <label>عنوان منبع *</label>
+                        <input name="title" id="edit-res-title" required>
+                    </div>
+                    <div class="field">
+                        <label>استاد مدرس</label>
+                        <input name="professor" id="edit-res-professor">
+                    </div>
+                    <div class="field">
+                        <label>سال تحصیلی</label>
+                        <input name="academic_year" id="edit-res-year">
+                    </div>
+                    <div class="field">
+                        <label>نوع سند *</label>
+                        <select name="resource_type" id="edit-res-type" required>
+                            <option value="Lecture Notes">جزوه آموزشی</option>
+                            <option value="Slides">اسلاید / فایل ارائه</option>
+                            <option value="Book">کتاب مرجع</option>
+                            <option value="Summary">خلاصه نویسی</option>
+                            <option value="Question Bank">نمونه سوالات</option>
+                            <option value="Video">ویدیو کلاسی</option>
+                            <option value="Other">سایر مستندات</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>فرمت فایل</label>
+                        <select name="file_format" id="edit-res-format">
+                            <option value="PDF">PDF</option>
+                            <option value="PPTX">PPTX</option>
+                            <option value="ZIP">ZIP Archive</option>
+                            <option value="DOCX">DOCX Word</option>
+                            <option value="MP4">MP4 Video</option>
+                            <option value="Other">دیگر فرمت‌ها</option>
+                        </select>
+                    </div>
+                    <div class="field full">
+                        <label>لینک دانلود فایل *</label>
+                        <input name="download_url" id="edit-res-dl-url" type="url" required>
+                    </div>
+                    <div class="field full">
+                        <label>لینک منبع اصلی</label>
+                        <input name="source_url" id="edit-res-src-url" type="url">
+                    </div>
+                    <div class="field full">
+                        <label>توضیحات</label>
+                        <textarea name="description" id="edit-res-desc"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>برچسب‌ها</label>
+                        <input name="tags" id="edit-res-tags">
+                    </div>
+                    <div class="field">
+                        <label>وضعیت منبع</label>
+                        <select name="status" id="edit-res-status">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-light" onclick="closeModal('edit-resource-modal')">انصراف</button>
+            <button class="btn btn-primary" onclick="submitEditResource()">اعمال تغییرات</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 2: DATABASE MANAGER (CRUD COLLECTIONS) -->
+<div class="modal" id="db-manager-modal">
+    <div class="modal-content" style="width:700px;">
+        <div class="modal-header">
+            <h3 id="db-manager-title">📂 مدیریت نهاد</h3>
+            <button class="modal-close" onclick="closeModal('db-manager-modal')">×</button>
+        </div>
+        <div class="modal-body">
+            <div style="margin-bottom:15px; display:flex; gap:10px;">
+                <button class="btn btn-primary" id="db-manager-add-btn">＋ افزودن مورد جدید</button>
+            </div>
+            <div class="table-wrap">
+                <table style="width:100%;">
+                    <thead id="db-manager-thead"></thead>
+                    <tbody id="db-manager-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const API = "/api";
+
+let libraryOptions = {
+    universities: [],
+    fields: [],
+    terms: [],
+    courses: [],
+    categories: []
+};
+
+let allResources = [];
+
+function showSection(sectionId) {
+    document.querySelectorAll(".page-section").forEach(section => {
+        section.hidden = section.id !== sectionId;
+    });
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    const titles = {
+        dashboard: "داشبورد مدیریت",
+        "add-resource": "ثبت منبع جدید",
+        resources: "مدیریت منابع"
+    };
+    document.getElementById("page-title").textContent = titles[sectionId];
+
+    const clicked = [...document.querySelectorAll(".nav-item")]
+        .find(item => item.getAttribute("onclick")?.includes(sectionId));
+    if (clicked) clicked.classList.add("active");
+}
+
+function openModal(id) {
+    document.getElementById(id).classList.add("open");
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove("open");
+}
+
+function isActiveOption(item) {
+    return String(item.status || "active").toLowerCase() !== "inactive";
+}
+
+function setSelectOptions(selectId, items, valueKey, labelKey, placeholder) {
+    const select = document.getElementById(selectId);
+    const previousValue = select.value;
+    select.innerHTML = "";
+
+    const first = document.createElement("option");
+    first.value = "";
+    first.textContent = placeholder;
+    select.appendChild(first);
+
+    items.filter(isActiveOption).forEach(item => {
+        const option = document.createElement("option");
+        option.value = item[valueKey];
+        option.textContent = item[labelKey] || item[valueKey];
+        select.appendChild(option);
+    });
+
+    if (items.some(item => item[valueKey] === previousValue && isActiveOption(item))) {
+        select.value = previousValue;
+    }
+}
+
+function resetDependentSelects(level) {
+    if (level <= 1) {
+        setSelectOptions("field-select", [], "field_id", "field_name", "ابتدا دانشگاه را انتخاب کنید");
+        document.getElementById("field-select").disabled = true;
+    }
+    if (level <= 2) {
+        setSelectOptions("term-select", [], "term_id", "term_name", "ابتدا رشته را انتخاب کنید");
+        document.getElementById("term-select").disabled = true;
+    }
+    if (level <= 3) {
+        setSelectOptions("course-select", [], "course_id", "course_name", "ابتدا ترم را انتخاب کنید");
+        document.getElementById("course-select").disabled = true;
+    }
+}
+
+function updateFields() {
+    const universityId = document.getElementById("university-select").value;
+    resetDependentSelects(1);
+    if (!universityId) return;
+
+    const fields = libraryOptions.fields.filter(item => item.university_id === universityId);
+    setSelectOptions("field-select", fields, "field_id", "field_name", "انتخاب رشته");
+    document.getElementById("field-select").disabled = false;
+}
+
+function updateTerms() {
+    const universityId = document.getElementById("university-select").value;
+    const fieldId = document.getElementById("field-select").value;
+    resetDependentSelects(2);
+    if (!universityId || !fieldId) return;
+
+    const terms = libraryOptions.terms.filter(
+        item => item.university_id === universityId && item.field_id === fieldId
+    );
+    setSelectOptions("term-select", terms, "term_id", "term_name", "انتخاب ترم");
+    document.getElementById("term-select").disabled = false;
+}
+
+function updateCourses() {
+    const termId = document.getElementById("term-select").value;
+    resetDependentSelects(3);
+    if (!termId) return;
+
+    const courses = libraryOptions.courses.filter(item => item.term_id === termId);
+    setSelectOptions("course-select", courses, "course_id", "course_name", "انتخاب درس");
+    document.getElementById("course-select").disabled = false;
+}
+
+async function loadDashboard() {
+    try {
+        const response = await fetch(`${API}/dashboard`);
+        if (!response.ok) throw new Error("API unavailable");
+        const data = await response.json();
+
+        document.getElementById("resource-count").textContent = data.resources;
+        document.getElementById("course-count").textContent = data.courses;
+        document.getElementById("term-count").textContent = data.terms;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function loadOptions() {
+    try {
+        const collections = ["universities", "fields", "terms", "courses", "categories"];
+        const responses = await Promise.all(collections.map(name => fetch(`${API}/${name}`)));
+        if (responses.some(r => !r.ok)) throw new Error("API options unavailable");
+
+        const data = await Promise.all(responses.map(r => r.json()));
+        collections.forEach((name, index) => {
+            libraryOptions[name] = data[index];
+        });
+
+        setSelectOptions("university-select", libraryOptions.universities, "university_id", "university_name", "انتخاب دانشگاه");
+        setSelectOptions("category-select", libraryOptions.categories, "category_id", "category_name", "بدون دسته‌بندی");
+        
+        resetDependentSelects(1);
+        document.getElementById("university-select").onchange = updateFields;
+        document.getElementById("field-select").onchange = updateTerms;
+        document.getElementById("term-select").onchange = updateCourses;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function loadResources() {
+    const table = document.getElementById("resources-table");
+    try {
+        const response = await fetch(`${API}/resources`);
+        if (!response.ok) throw new Error("Could not fetch resources");
+        allResources = await response.json();
+        renderResources(allResources);
+    } catch (error) {
+        table.innerHTML = `<tr><td colspan="7" class="empty">خطا در برقراری ارتباط با سرور: ${error.message}</td></tr>`;
+    }
+}
+
+function renderResources(resources) {
+    const table = document.getElementById("resources-table");
+    if (!resources.length) {
+        table.innerHTML = `<tr><td colspan="7" class="empty">هیچ منبعی پیدا نشد.</td></tr>`;
+        return;
+    }
+
+    table.innerHTML = resources.map(res => {
+        const isInactive = String(res.status).toLowerCase() === "inactive";
+        return `
+        <tr>
+            <td>${escapeHTML(res.resource_id)}</td>
+            <td class="resource-title">${escapeHTML(res.title || "")}</td>
+            <td>${escapeHTML(res.course || "—")}</td>
+            <td>${escapeHTML(res.professor || "—")}</td>
+            <td><span class="tag">${escapeHTML(res.resource_type || "—")}</span></td>
+            <td><span class="tag ${isInactive ? 'tag-inactive' : ''}">${escapeHTML(res.status || "Active")}</span></td>
+            <td>
+                <div class="action-group">
+                    <button class="btn-action btn-action-edit" onclick="openEditResource('${res.resource_id}')">ویرایش</button>
+                    <button class="btn-action btn-action-del" onclick="deleteResource('${res.resource_id}')">حذف</button>
+                </div>
+            </td>
+        </tr>
+    `}).join("");
+}
+
+function escapeHTML(value) {
+    return String(value || "").replace(/[&<>/"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", "/": "&#x2F;",
+        '"': "&quot;", "'": "&#039;"
+    })[char]);
+}
+
+// INLINE ENTITY CREATOR
+async function addEntityInline(collection) {
+    const definitions = {
+        universities: { label: "نام دانشگاه", key: "university_name" },
+        fields: { label: "نام رشته", key: "field_name" },
+        terms: { label: "نام ترم", key: "term_name" },
+        courses: { label: "نام درس", key: "course_name" },
+        categories: { label: "نام دسته‌بندی", key: "category_name" }
+    };
+    
+    const def = definitions[collection];
+    const name = prompt(`نام ${def.label} جدید را وارد کنید:`);
+    if (!name || !name.trim()) return;
+
+    const payload = { [def.key]: name.trim() };
+    
+    if (collection === "fields") payload.university_id = document.getElementById("university-select").value;
+    if (collection === "terms") {
+        payload.university_id = document.getElementById("university-select").value;
+        payload.field_id = document.getElementById("field-select").value;
+    }
+    if (collection === "courses") {
+        payload.university_id = document.getElementById("university-select").value;
+        payload.field_id = document.getElementById("field-select").value;
+        payload.term_id = document.getElementById("term-select").value;
+    }
+
+    try {
+        const response = await fetch(`${API}/${collection}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const res = await response.json();
+        if (!response.ok) throw new Error(res.error || "ثبت ناموفق بود.");
+        
+        await loadOptions();
+        alert("نهاد جدید با موفقیت ایجاد شد.");
+    } catch (e) {
+        alert("خطا: " + e.message);
+    }
+}
+
+// DELETE RESOURCE
+async function deleteResource(id) {
+    if (!confirm(`آیا از حذف یا غیرفعال‌سازی منبع با شناسه ${id} مطمئن هستید؟`)) return;
+    try {
+        const r = await fetch(`${API}/resources/${id}`, { method: "DELETE" });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || "حذف با خطا مواجه شد");
+        
+        alert(data.message || "منبع با موفقیت حذف/غیرفعال گردید.");
+        await loadDashboard();
+        await loadResources();
+    } catch (e) {
+        alert("خطا: " + e.message);
+    }
+}
+
+// EDIT RESOURCE OPERATIONS
+function openEditResource(id) {
+    const res = allResources.find(x => x.resource_id === id);
+    if (!res) return;
+    
+    document.getElementById("edit-res-id").value = res.resource_id;
+    document.getElementById("edit-res-title").value = res.title || "";
+    document.getElementById("edit-res-professor").value = res.professor || "";
+    document.getElementById("edit-res-year").value = res.academic_year || "";
+    document.getElementById("edit-res-type").value = res.resource_type || "Lecture Notes";
+    document.getElementById("edit-res-format").value = res.file_format || "PDF";
+    document.getElementById("edit-res-dl-url").value = res.download_url || "";
+    document.getElementById("edit-res-src-url").value = res.source_url || "";
+    document.getElementById("edit-res-desc").value = res.description || "";
+    document.getElementById("edit-res-tags").value = Array.isArray(res.tags) ? res.tags.join(", ") : (res.tags || "");
+    document.getElementById("edit-res-status").value = res.status || "Active";
+    
+    openModal("edit-resource-modal");
+}
+
+async function submitEditResource() {
+    const id = document.getElementById("edit-res-id").value;
+    const form = document.getElementById("edit-resource-form");
+    const formData = Object.fromEntries(new FormData(form).entries());
+    
+    formData.tags = formData.tags.split(",").map(t => t.trim()).filter(Boolean);
+
+    try {
+        const response = await fetch(`${API}/resources/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        });
+        const res = await response.json();
+        if (!response.ok) throw new Error(res.error || "ویرایش ناموفق بود.");
+        
+        closeModal("edit-resource-modal");
+        alert("تغییرات با موفقیت ذخیره شدند.");
+        await loadResources();
+    } catch (e) {
+        alert("خطا: " + e.message);
+    }
+}
+
+// GENERAL DATABASE MANAGER MODAL OPERATIONS (CRUD FOR COLLECTIONS)
+let currentManagedCollection = "";
+async function openDatabaseManager(collection) {
+    currentManagedCollection = collection;
+    const titles = {
+        universities: "🏛 مدیریت دانشگاه‌ها",
+        fields: "🧬 مدیریت رشته‌ها",
+        terms: "📅 مدیریت ترم‌ها",
+        courses: "📚 مدیریت درس‌ها",
+        categories: "🏷 مدیریت دسته‌بندی‌ها"
+    };
+    
+    document.getElementById("db-manager-title").textContent = titles[collection];
+    renderCollectionTable(collection);
+    
+    document.getElementById("db-manager-add-btn").onclick = () => addEntityInline(collection).then(() => renderCollectionTable(collection));
+    openModal("db-manager-modal");
+}
+
+async function renderCollectionTable(collection) {
+    const thead = document.getElementById("db-manager-thead");
+    const tbody = document.getElementById("db-manager-tbody");
+    
+    thead.innerHTML = "";
+    tbody.innerHTML = "<tr><td class='empty'>در حال بارگذاری...</td></tr>";
+    
+    try {
+        const response = await fetch(`${API}/${collection}`);
+        const list = await response.json();
+        
+        const headers = {
+            universities: ["شناسه", "نام دانشگاه", "وضعیت", "اقدامات"],
+            fields: ["شناسه", "نام رشته", "وضعیت", "اقدامات"],
+            terms: ["شناسه", "نام ترم", "وضعیت", "اقدامات"],
+            courses: ["شناسه", "نام درس", "وضعیت", "اقدامات"],
+            categories: ["شناسه", "نام دسته‌بندی", "وضعیت", "اقدامات"]
+        }[collection];
+        
+        thead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr>`;
+        
+        if (!list.length) {
+            tbody.innerHTML = `<tr><td colspan="4" class="empty">هیچ رکوردی ثبت نشده است.</td></tr>`;
+            return;
+        }
+        
+        const idKey = collection.slice(0, -1) + "_id";
+        const nameKey = {
+            universities: "university_name",
+            fields: "field_name",
+            terms: "term_name",
+            courses: "course_name",
+            categories: "category_name"
+        }[collection];
+        
+        tbody.innerHTML = list.map(item => `
+            <tr>
+                <td>${escapeHTML(item[idKey])}</td>
+                <td>${escapeHTML(item[nameKey])}</td>
+                <td>${escapeHTML(item.status || "Active")}</td>
+                <td>
+                    <div class="action-group">
+                        <button class="btn-action btn-action-edit" onclick="editCollectionRecord('${collection}', '${item[idKey]}', '${escapeHTML(item[nameKey])}', '${item.status || 'Active'}')">ویرایش</button>
+                        <button class="btn-action btn-action-del" onclick="deleteCollectionRecord('${collection}', '${item[idKey]}')">حذف</button>
+                    </div>
+                </td>
+            </tr>
+        `).join("");
+    } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="4" class="empty">خطا: ${e.message}</td></tr>`;
+    }
+}
+
+async function editCollectionRecord(collection, id, currentName, currentStatus) {
+    const newName = prompt(`نام جدید را وارد نمایید:`, currentName);
+    if (newName === null || !newName.trim()) return;
+    
+    const newStatus = confirm("آیا این مورد فعال باشد؟ (لغو = غیرفعال/Inactive)") ? "Active" : "Inactive";
+    
+    const nameKey = {
+        universities: "university_name",
+        fields: "field_name",
+        terms: "term_name",
+        courses: "course_name",
+        categories: "category_name"
+    }[collection];
+
+    const payload = { [nameKey]: newName.trim(), status: newStatus };
+    
+    try {
+        const response = await fetch(`${API}/${collection}/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        if (!response.ok) throw new Error("خطا در اعمال تغییرات");
+        
+        alert("با موفقیت ویرایش شد.");
+        await loadOptions();
+        await renderCollectionTable(collection);
+    } catch (e) {
+        alert(e.message);
+    }
+}
+
+async function deleteCollectionRecord(collection, id) {
+    if (!confirm("آیا از حذف فیزیکی یا منطقی این مورد اطمینان دارید؟")) return;
+    try {
+        const response = await fetch(`${API}/${collection}/${id}`, { method: "DELETE" });
+        const res = await response.json();
+        if (!response.ok) throw new Error(res.error || "خطا در حذف نهاد");
+        
+        alert(res.message || "نهاد با موفقیت حذف گردید.");
+        await loadOptions();
+        await renderCollectionTable(collection);
+    } catch (e) {
+        alert(e.message);
+    }
+}
+
+// SEARCH FILTER
+document.getElementById("resource-search").addEventListener("input", e => {
+    const q = e.target.value.trim().toLowerCase();
+    const filtered = allResources.filter(res => 
+        [res.title, res.course, res.professor, res.resource_id]
+            .some(v => String(v || "").toLowerCase().includes(q))
+    );
+    renderResources(filtered);
+});
+
+// RESOURCE SUBMIT
+document.getElementById("resource-form").addEventListener("submit", async event => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+    
+    data.tags = (data.tags || "").split(",").map(t => t.trim()).filter(Boolean);
+    data.category_id = data.category_id || null;
+
+    try {
+        const response = await fetch(`${API}/resources`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "ثبت اطلاعات ناموفق بود.");
+
+        alert(`منبع با موفقیت ثبت شد.\nشناسه: ${result.id}`);
+        form.reset();
+        await loadOptions();
+        await loadDashboard();
+        await loadResources();
+    } catch (e) {
+        alert("خطا در ثبت اطلاعات: " + e.message);
+    }
+});
+
+// INITIALIZATION
+(async () => {
+    await loadDashboard();
+    await loadOptions();
+    await loadResources();
+})();
+</script>
+</body>
+</html>

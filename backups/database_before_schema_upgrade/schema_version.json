@@ -1,0 +1,39 @@
+{
+    "database_name": "MedLibrary",
+    "schema_version": "1.2.0",
+    "description": "Medical educational resources database",
+    "created_from": "Google Drive",
+    "tables": {
+        "resources": [
+            "resource_id",
+            "term_id",
+            "course_id",
+            "course",
+            "title",
+            "resource_type",
+            "professor",
+            "academic_year",
+            "file_name",
+            "file_path",
+            "description",
+            "tags",
+            "is_duplicate",
+            "status",
+            "download_url",
+            "source_url",
+            "file_format",
+            "access_type"
+        ],
+        "courses": [
+            "course_id",
+            "term_id",
+            "course_name",
+            "status"
+        ],
+        "terms": [
+            "term_id",
+            "term_name",
+            "status"
+        ]
+    }
+}
